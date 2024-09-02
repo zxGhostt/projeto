@@ -1,0 +1,158 @@
+Criar um sistema de login básico em PHP com MySQL envolve vários passos: criar o banco de dados, criar a tabela de usuários, e implementar o código PHP para lidar com o login. Aqui está um guia passo a passo para ajudar você a configurar isso.
+
+1. Configuração do Banco de Dados
+Criar o banco de dados e a tabela de usuários
+
+Primeiro, você precisa criar um banco de dados e uma tabela para armazenar os dados dos usuários. Você pode fazer isso através de um cliente MySQL, como phpMyAdmin, ou usando a linha de comando do MySQL.
+
+sql
+Copiar código
+CREATE DATABASE login_system;
+
+USE login_system;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+Aqui, password é armazenada como uma string longa para permitir o hash da senha.
+
+Inserir um usuário (opcional)
+
+Para testar o login, você pode inserir um usuário com uma senha hash.
+
+php
+Copiar código
+INSERT INTO users (username, password) VALUES ('testuser', PASSWORD('testpassword'));
+Nota: Use PASSWORD() apenas para este exemplo. Para produção, você deve usar password_hash() em PHP para criar hashes de senha.
+
+2. Código PHP para Login
+Conectar ao banco de dados
+
+Crie um arquivo db.php para gerenciar a conexão com o banco de dados.
+
+php
+Copiar código
+<?php
+$servername = "localhost";
+$username = "root"; // Usuário do MySQL
+$password = ""; // Senha do MySQL
+$dbname = "login_system";
+
+// Criar conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
+}
+?>
+Criar o formulário de login
+
+Crie um arquivo login.php para o formulário de login.
+
+php
+Copiar código
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <form action="login_process.php" method="POST">
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+Processar o login
+
+Crie um arquivo login_process.php para processar o formulário de login.
+
+php
+Copiar código
+<?php
+session_start();
+include 'db.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Prepara e executa a consulta
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($id, $hashed_password);
+        $stmt->fetch();
+
+        // Verifica a senha
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $id;
+            $_SESSION['username'] = $username;
+            header("Location: welcome.php");
+            exit();
+        } else {
+            echo "Senha incorreta.";
+        }
+    } else {
+        echo "Usuário não encontrado.";
+    }
+
+    $stmt->close();
+}
+
+$conn->close();
+?>
+Página de boas-vindas
+
+Crie um arquivo welcome.php para a página que será exibida após o login bem-sucedido.
+
+php
+Copiar código
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+</head>
+<body>
+    <h1>Bem-vindo, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+    <a href="logout.php">Sair</a>
+</body>
+</html>
+Logout
+
+Crie um arquivo logout.php para gerenciar a saída da sessão.
+
+php
+Copiar código
+<?php
+session_start();
+session_unset();
+session_destroy();
+header("Location: login.php");
+exit();
+?>
+Notas Finais
+Segurança: Este é um exemplo básico. Para um sistema de login em produção, você deve considerar a segurança adicional, como proteção contra ataques CSRF, validação e sanitização de entrada, e implementação de políticas de senha forte.
+Hashes de Senha: Use password_hash() para criar hashes de senha ao registrar novos usuários e password_verify() para verificar as senhas durante o login.
+Certifique-se de testar todas as partes e ajustar conforme necessário para o seu ambiente e requisitos específicos.

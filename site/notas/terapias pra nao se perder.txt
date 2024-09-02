@@ -1,0 +1,35 @@
+<?php
+
+    //paciente
+    $nomep = $_GET["nomep"];
+    $idade = $_GET["idade"];
+    $email = $_GET["email"];
+    $cpf = $_GET["cpf"];
+    $telefone = $_GET["telefone"];
+    $sexo = $_GET["sexo"];
+    $estado = $_GET["civil"];
+    $terapia = $_GET["terapias"];
+
+    echo "<br><pre>";
+
+    var_dump($nome, $idade, $cpf,$email,$telefone,$sexo,$estado,$terapia);
+
+?>
+
+
+
+estarei apagando do cadastro de paciente pq acho que isso onde a pessoa for querer escolher a consulta
+<p>
+                    Terapia oferecida: <select name="terapias">
+                        <option value="">selecione</option>
+                        <option value="tcc">Terapia Cognitivo-Comportamental (TCC)</option>
+                        <option value="Psicanálise">Psicanálise</option>
+                        <option value="Psicoterapia Humanista">Psicoterapia Humanista</option>
+                        <option value="atc">Terapia de Aceitação e Compromisso</option>
+                   
+                        <option value="tip">Terapia Interpessoal</option>
+                        <option value="Terapia Familiar e de Casal">Terapia Familiar e de Casal</option>
+                        <option value="dbt">Terapia Comportamental Dialética</option>
+                        <option value="Terapia de Jogo">Terapia de Jogo</option>
+                        <option value="outros">Outros</option>
+                    </select></p>

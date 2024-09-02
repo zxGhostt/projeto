@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+        <H1><u>Casdastro de paciente</u></H1>
+        <form action="cadasP.php" method="get" >
+            <fieldset>
+                <legend>Paciente</legend>
+
+                <p>
+                    Nome Completo: <input type="text" name="nomep" required placeholder="Informe o nome do paciente" size="40">
+                </p>
+                <p>
+                    Idade: <input type="text" name="idade" required placeholder="Informe a idade" size="40">
+                </p>
+                <p>
+                    CPF: <input type="text" name="cpf" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+                    title="Informe o CPF corretamente seguindo: xxx.xxx.xxx-xx" 
+                    maxlength="14" placeholder="Informe o CPF" size="40">
+                </p>
+                <p>
+                    E-mail:  <input type="email" name="email" required size="40" placeholder="Informe o email do paciente ">
+                </p>
+                <p>
+                    Telefone de Contato: <input type="text" name="telefone" required title="Informe o telefone corretamente seguindo: 61 9xxxx-xxxx" placeholder="informe o telefone para contato">
+                </p>
+                <p>
+                    <label for="sexo">Sexo:</label><br>
+                    <input type="radio" name="sexo" value="m" checked>Mascuino<br>
+                    <input type="radio" name="sexo" value="f">Feminino<br>
+                    <input type="radio" name="sexo" value="o">Outros<br>
+                </p>
+                <p>
+                    <label for="civil">Estado Civil:</label><br>
+                    <input type="radio" name="civil" value="s" checked>Solteiro<br>
+                    <input type="radio" name="civil" value="c">Casado<br>
+                    <input type="radio" name="civil" value="o">Outros<br>
+                </p>
+                <p>
+                    Terapia oferecida: <select name="terapias">
+                        <option value="">selecione</option>
+                        <option value="tcc">Terapia Cognitivo-Comportamental (TCC)</option>
+                        <option value="Psicanálise">Psicanálise</option>
+                        <option value="Psicoterapia Humanista">Psicoterapia Humanista</option>
+                        <option value="atc">Terapia de Aceitação e Compromisso</option>
+                   
+                        <option value="tip">Terapia Interpessoal</option>
+                        <option value="Terapia Familiar e de Casal">Terapia Familiar e de Casal</option>
+                        <option value="dbt">Terapia Comportamental Dialética</option>
+                        <option value="Terapia de Jogo">Terapia de Jogo</option>
+                        <option value="outros">Outros</option>
+                    </select></p>
+
+                    <input type="submit" value="Cadastar">
+            </fieldset>
+        </form>
+        <p>
+            <a href="home.html">Voltar</a>
+        </p>
+</body>
+</html>

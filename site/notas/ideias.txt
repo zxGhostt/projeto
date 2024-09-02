@@ -1,0 +1,88 @@
+/* Define a animação do checkmark */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.checkmark-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid white;
+    border-radius: 50%;
+    position: relative;
+    background-color: #4caf50; /* Cor de fundo verde */
+}
+
+.checkmark-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 5px;
+    border: solid white;
+    border-width: 2px 2px 0 0;
+    transform: rotate(45deg);
+    transform-origin: center;
+    opacity: 0;
+    animation: checkmark 0.6s ease-out;
+}
+
+#success-box.show-checkmark .checkmark-icon::after {
+    opacity: 1;
+}
+///////////////////////////////////////////////////////////////////////
+<div id="success-box" class="hidden">
+    <div class="checkmark-icon"></div>
+    <p id="success-message">Login realizado com sucesso!</p>
+</div>
+///////////////////////////////////////////////////////////////////////
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    var successBox = document.getElementById('success-box');
+    var errorMessage = document.getElementById('error-message');
+
+    if (username === "admin" && password === "987") {
+        successBox.classList.remove('hidden'); // Mostra a caixa de sucesso
+        successBox.classList.add('show-checkmark'); // Adiciona a classe para mostrar o checkmark
+        errorMessage.textContent = ''; // Limpa a mensagem de erro
+    } else {
+        successBox.classList.add('hidden'); // Garante que a caixa de sucesso esteja escondida
+        successBox.classList.remove('show-checkmark'); // Remove a classe do checkmark
+        errorMessage.textContent = 'Usuário ou senha incorretos, meu nobre!';
+    }
+});
+////////////////////////////////////////////////////////////////////////////
+Passo 1: Definir a Animação no CSS
+Primeiro, você precisa definir a animação no seu arquivo CSS. Você pode usar animações baseadas em keyframes para criar um efeito visual interessante. Vamos criar uma animação de "checkmark" (marcação de verificação) que será exibida quando o login for bem-sucedido.
+
+Adicione o seguinte código CSS ao seu arquivo styless.css:
+///////////////////////////////////////////////////////////////////////////////
+Passo 2: Modificar o HTML
+Adicione um ícone de verificação dentro da caixa de sucesso. Modifique o HTML para incluir um div com a classe checkmark-icon:
+///////////////////////////////////////////////////////////////////////////////
+Passo 3: Atualizar o JavaScript
+Atualize o JavaScript para adicionar a classe show-checkmark à caixa de sucesso quando o login for bem-sucedido. Isso acionará a animação:
+////////////////////////////////////////////////////////////////////////////////
+Passo 4: Testar
+Depois de implementar as mudanças, teste a funcionalidade para garantir que a animação de verificação aparece corretamente quando o login é bem-sucedido.
+
+Resumo
+CSS: Define uma animação de verificação usando @keyframes e estiliza um ícone de verificação.
+HTML: Adiciona um elemento para o ícone de verificação dentro da caixa de sucesso.
+JavaScript: Atualiza a lógica para adicionar a classe que aciona a animação quando o login é bem-sucedido.
+Essas etapas garantirão que uma animação de verificação apareça de forma atraente quando o usuário fizer login com sucesso.
